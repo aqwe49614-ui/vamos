@@ -595,3 +595,33 @@ transform:scale(.95);
 }
 
 }
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.bottomNav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.chatInput {
+    position: fixed;
+    z-index: 9999;
+}
