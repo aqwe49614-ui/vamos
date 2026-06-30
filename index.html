@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇪🇸 VAMOS</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f3f4f6;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.1);
+max-width:700px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+color:#16a34a;
+margin-bottom:10px;
+}
+
+h2{
+margin-top:20px;
+color:#333;
+}
+
+li{
+margin:8px 0;
+font-size:18px;
+}
+
+button{
+width:100%;
+margin-top:20px;
+padding:15px;
+background:#16a34a;
+color:white;
+font-size:18px;
+border:none;
+border-radius:12px;
+}
+
+button:hover{
+background:#15803d;
+}
+
+#quiz{
+display:none;
+margin-top:30px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+.result{
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🇪🇸 VAMOS</h1>
+
+<p style="text-align:center;">
+جلسه اول - سلام و معرفی
+</p>
+
+<h2>لغات</h2>
+
+<ul>
+
+<li>Hola = سلام</li>
+
+<li>Gracias = ممنون</li>
+
+<li>Por favor = لطفاً</li>
+
+<li>Adiós = خداحافظ</li>
+
+<li>Me llamo... = اسم من ... است</li>
+
+<li>Soy iraní = من ایرانی هستم</li>
+
+</ul>
+
+<button onclick="startQuiz()">
+شروع آزمون
+</button>
+
+<div id="quiz">
+
+<h2>سوال</h2>
+
+<p>
+Hola یعنی؟
+</p>
+
+<input id="answer">
+
+<button onclick="check()">
+ثبت جواب
+</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function startQuiz(){
+
+document.getElementById("quiz").style.display="block";
+
+}
+
+function check(){
+
+let a=document.getElementById("answer").value.trim();
+
+if(a==="سلام"){
+
+result.innerHTML="🎉 آفرین! جواب درسته.";
+
+result.style.color="green";
+
+}else{
+
+result.innerHTML="❌ جواب درست: سلام";
+
+result.style.color="red";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
