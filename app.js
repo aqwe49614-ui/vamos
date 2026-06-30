@@ -1,8 +1,7 @@
 // =========================
-// VAMOS APP CORE (PRODUCTION FIXED)
+// VAMOS APP CORE (ULTRA FIXED)
 // =========================
 
-// API
 const API_URL = "https://vamos-ai-1.aqwe49614.workers.dev";
 
 // عناصر
@@ -14,7 +13,7 @@ const chatArea = document.getElementById("chatArea");
 let history = [];
 
 // =========================
-// SAFE UI
+// UI SAFE
 // =========================
 
 function addAI(text) {
@@ -34,12 +33,11 @@ function addUser(text) {
 }
 
 // =========================
-// STORAGE SAFE
+// STORAGE
 // =========================
 
 function getUserData() {
-    const data = localStorage.getItem("vamos_data");
-    return data ? JSON.parse(data) : {
+    return JSON.parse(localStorage.getItem("vamos_data")) || {
         xp: 0,
         level: "A1",
         streak: 0
@@ -84,7 +82,7 @@ function addStreak() {
 }
 
 // =========================
-// AI FIX (ROOT CAUSE FIXED)
+// AI (FIXED 100%)
 // =========================
 
 async function askAI(message) {
@@ -127,16 +125,26 @@ async function askAI(message) {
 
         console.log("AI RESPONSE:", data);
 
-        // ===== FIXED PARSER (100% SAFE) =====
-        let reply =
-            data?.choices?.[0]?.message?.content ??
-            data?.output ??
-            data?.response ??
-            data?.result ??
-            (typeof data === "string" ? data : null);
+        // =========================
+        // SAFE RESPONSE PARSER (FIXED)
+        // =========================
+
+        let reply = null;
+
+        if (data?.choices?.[0]?.message?.content) {
+            reply = data.choices[0].message.content;
+        } else if (data?.result) {
+            reply = data.result;
+        } else if (data?.response) {
+            reply = data.response;
+        } else if (data?.output) {
+            reply = data.output;
+        } else if (typeof data === "string") {
+            reply = data;
+        }
 
         if (!reply) {
-            reply = "❌ Worker پاسخ معتبر نداد";
+            reply = "❌ Worker پاسخ نامعتبر داد";
         }
 
         addAI(reply);
@@ -156,7 +164,7 @@ async function askAI(message) {
 }
 
 // =========================
-// NAV FIX (REAL PAGE SWITCH)
+// NAV (FIXED)
 // =========================
 
 function showPage(pageId) {
@@ -164,34 +172,32 @@ function showPage(pageId) {
     const pages = ["homePage", "lessonPage", "chatPage", "profilePage"];
 
     pages.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = "none";
+        document.getElementById(id)?.style && (document.getElementById(id).style.display = "none");
     });
 
-    const target = document.getElementById(pageId);
-    if (target) target.style.display = "block";
+    document.getElementById(pageId)?.style && (document.getElementById(pageId).style.display = "block");
 }
 
 // =========================
-// EVENTS SAFE INIT
+// INIT
 // =========================
 
 window.addEventListener("load", () => {
 
-    console.log("VAMOS APP LOADED");
+    console.log("VAMOS LOADED");
 
     updateProfile();
 
     addAI("🇪🇸 خوش آمدی! من معلم اسپانیایی تو هستم.");
 
-    // NAV BUTTONS
+    // NAV
     document.getElementById("navHome")?.addEventListener("click", () => showPage("homePage"));
     document.getElementById("navLesson")?.addEventListener("click", () => showPage("lessonPage"));
     document.getElementById("navChat")?.addEventListener("click", () => showPage("chatPage"));
     document.getElementById("navProfile")?.addEventListener("click", () => showPage("profilePage"));
 });
 
-// SEND BUTTON
+// SEND
 sendBtn?.addEventListener("click", () => {
 
     const text = input?.value?.trim();
