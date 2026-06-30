@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>VAMOS AI</title>
 
 <link rel="manifest" href="manifest.json">
-
 <link rel="stylesheet" href="style.css">
 
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#08111f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VAMOS">
 
 </head>
 
 <body>
 
-<div id="app">
+<div id="loadingScreen">
 
-<header>
-
-<div class="logo">
+<div class="loaderLogo">
 
 🇪🇸
 
 </div>
-
-<div>
 
 <h1>
 
@@ -47,64 +39,247 @@ VAMOS AI
 
 </div>
 
+<div id="app">
+
+<header>
+
+<div class="topBar">
+
+<div class="logo">
+
+🇪🇸
+
+</div>
+
+<div>
+
+<h1>
+
+VAMOS AI
+
+</h1>
+
+<span>
+
+Spanish Teacher
+
+</span>
+
+</div>
+
+</div>
+
+<div class="profileBox">
+
+<div class="levelBox">
+
+<div>
+
+سطح
+
+</div>
+
+<h2 id="level">
+
+A1
+
+</h2>
+
+</div>
+
+<div class="xpBox">
+
+<div>
+
+XP
+
+</div>
+
+<h2 id="xp">
+
+0
+
+</h2>
+
+</div>
+
+<div class="streakBox">
+
+<div>
+
+🔥
+
+</div>
+
+<h2 id="streak">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
 </header>
 
-<section id="welcome">
+<main>
+
+<section id="homePage">
+
+<div class="hero">
 
 <h2>
 
-خوش آمدی 👋
+به VAMOS خوش آمدی
 
 </h2>
 
 <p>
 
-از امروز آموزش زبان اسپانیایی را از صفر شروع می‌کنیم.
-
-تمام آموزش‌ها مرحله به مرحله خواهند بود.
-
-در پایان هر درس امتحان گرفته می‌شود.
-
-هوش مصنوعی اشتباهاتت را تحلیل می‌کند.
+از امروز مثل یک آموزشگاه واقعی،
+هر روز یک درس،
+تمرین،
+امتحان
+و تحلیل اشتباهات خواهی داشت.
 
 </p>
 
-<button id="startBtn">
+<button id="startCourse">
 
-شروع درس اول
+شروع دوره
 
 </button>
 
+</div>
+
+<div class="continueCard">
+
+<h3>
+
+ادامه یادگیری
+
+</h3>
+
+<p id="lessonStatus">
+
+هنوز دوره را شروع نکرده‌ای.
+
+</p>
+
+<button id="continueBtn">
+
+ادامه
+
+</button>
+
+</div>
+
+<div class="progressCard">
+
+<h3>
+
+پیشرفت
+
+</h3>
+
+<div class="progressBar">
+
+<div id="progressFill">
+
+</div>
+
+</div>
+
+<span id="progressText">
+
+0%
+
+</span>
+
+</div>
+
 </section>
 
-<section id="lessonArea">
+<section id="lessonPage" style="display:none;">
+
+<div id="lessonContainer">
+
+</div>
 
 </section>
 
-<section id="chatArea">
+<section id="examPage" style="display:none;">
+
+<div id="examContainer">
+
+</div>
 
 </section>
 
-<footer>
+<section id="chatPage">
+
+<div id="chatArea">
+
+</div>
+
+<div class="chatInput">
 
 <input
-
 id="userInput"
-
 placeholder="پاسخ خود را بنویس...">
 
-<button id="send">
+<button id="sendBtn">
 
 ارسال
 
 </button>
 
-</footer>
+</div>
+
+</section>
+
+</main>
+
+<nav class="bottomNav">
+
+<button id="navHome">
+
+🏠
+
+خانه
+
+</button>
+
+<button id="navLesson">
+
+📚
+
+درس‌ها
+
+</button>
+
+<button id="navChat">
+
+🤖
+
+معلم
+
+</button>
+
+<button id="navProfile">
+
+👤
+
+پروفایل
+
+</button>
+
+</nav>
 
 </div>
 
 <script src="app.js"></script>
 
 </body>
-
-</html>
+</html> 
