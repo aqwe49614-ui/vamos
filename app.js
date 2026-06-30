@@ -48,8 +48,24 @@ async function askAI(message) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                messages: history
-            })
+    messages: [
+        {
+            role: "system",
+            content: `
+تو یک معلم اسپانیایی هستی.
+فقط آموزش بده.
+
+قانون‌ها:
+- فارسی توضیح بده
+- مثال اسپانیایی بده
+- تمرین بده
+
+سطح: A1
+`
+        },
+        ...history
+    ]
+})
         });
 
         const data = await res.json();
