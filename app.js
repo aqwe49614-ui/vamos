@@ -1,3 +1,5 @@
+alert("JS IS LOADED");
+
 // =========================
 // VAMOS APP CORE (FINAL CLEAN FIX)
 // =========================
