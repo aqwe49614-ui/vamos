@@ -1,54 +1,21 @@
 // =========================
-// VAMOS AI - CORE APP
+// VAMOS APP CORE (FINAL CONNECTOR)
 // =========================
 
-const API_URL = "https://vamos-ai-1.aqwe49614.workers.dev";
+import { addXP, addStreak, getUserData } from "./storage.js";
+import { startExam } from "./examEngine.js";
+import { speak } from "./voiceEngine.js";
 
-// عناصر UI
-const chatArea = document.getElementById("chatArea");
+// عناصر
 const input = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
+const chatArea = document.getElementById("chatArea");
 
-const startBtn = document.getElementById("startCourse");
-const continueBtn = document.getElementById("continueBtn");
+// API
+const API_URL = "https://vamos-ai-1.aqwe49614.workers.dev";
 
-const levelEl = document.getElementById("level");
-const xpEl = document.getElementById("xp");
-const streakEl = document.getElementById("streak");
-
-const lessonContainer = document.getElementById("lessonContainer");
-
-// وضعیت اپ
-let state = {
-    lesson: 1,
-    xp: 0,
-    level: "A1",
-    streak: 0,
-    history: []
-};
-
-// ذخیره
-function save() {
-    localStorage.setItem("vamos", JSON.stringify(state));
-}
-
-// لود
-function load() {
-    const data = localStorage.getItem("vamos");
-    if (data) {
-        state = JSON.parse(data);
-        updateUI();
-    }
-}
-
-load();
-
-// آپدیت UI
-function updateUI() {
-    levelEl.innerText = state.level;
-    xpEl.innerText = state.xp;
-    streakEl.innerText = state.streak;
-}
+// state محلی
+let history = [];
 
 // پیام AI
 function addAI(text) {
@@ -56,7 +23,6 @@ function addAI(text) {
     div.className = "message ai";
     div.innerText = text;
     chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
 }
 
 // پیام کاربر
@@ -65,22 +31,14 @@ function addUser(text) {
     div.className = "message user";
     div.innerText = text;
     chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
 }
 
-// ارسال به AI
+// ارسال به سرور
 async function askAI(message) {
 
     addUser(message);
 
-    state.history.push({
-        role: "user",
-        content: message
-    });
-
-    save();
-
-    addAI("⏳ در حال فکر کردن...");
+    history.push({ role: "user", content: message });
 
     try {
 
@@ -90,44 +48,44 @@ async function askAI(message) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                messages: state.history
+                messages: history
             })
         });
 
         const data = await res.json();
 
-        chatArea.lastChild.remove();
-
         const reply =
             data.choices?.[0]?.message?.content ||
-            data.reply ||
-            "خطا در دریافت پاسخ";
+            "خطا در پاسخ";
 
         addAI(reply);
 
-        state.history.push({
-            role: "assistant",
-            content: reply
-        });
+        history.push({ role: "assistant", content: reply });
 
-        save();
+        // XP + Streak
+        addXP(5);
+        addStreak();
 
-        state.xp += 5;
-        updateUI();
-        save();
+        updateProfile();
 
     } catch (err) {
-
-        chatArea.lastChild.remove();
-
-        addAI("❌ اتصال به سرور برقرار نشد");
-
-        console.error(err);
+        addAI("❌ مشکل اتصال به سرور");
     }
 }
 
-// ارسال پیام
+// آپدیت پروفایل
+function updateProfile() {
+
+    const data = getUserData();
+
+    document.getElementById("xp").innerText = data.xp;
+    document.getElementById("level").innerText = data.level;
+    document.getElementById("streak").innerText = data.streak;
+}
+
+// ارسال
 sendBtn.onclick = () => {
+
     const text = input.value.trim();
     if (!text) return;
 
@@ -137,23 +95,15 @@ sendBtn.onclick = () => {
 
 // Enter
 input.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        sendBtn.click();
-    }
+    if (e.key === "Enter") sendBtn.click();
 });
 
-// شروع دوره
-startBtn.onclick = () => {
+// شروع درس اول خودکار
+window.addEventListener("load", () => {
 
-    document.getElementById("homePage").style.display = "none";
-    document.getElementById("chatPage").style.display = "block";
+    addAI("🇪🇸 خوش آمدی! من معلم اسپانیایی تو هستم.");
 
-    addAI(
-        "🇪🇸 سلام! من معلم اسپانیایی تو هستم. آماده‌ای شروع کنیم؟ فقط بنویس: شروع"
-    );
-};
+    speak("Bienvenido");
 
-// ادامه
-continueBtn.onclick = () => {
-    startBtn.click();
-};
+    updateProfile();
+});
