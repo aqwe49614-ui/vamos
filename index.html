@@ -12,273 +12,232 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="VAMOS">
-
 </head>
 
 <body>
 
 <div id="loadingScreen">
-
-<div class="loaderLogo">
-
-🇪🇸
-
-</div>
-
-<h1>
-
-VAMOS AI
-
-</h1>
-
-<p>
-
-معلم هوش مصنوعی زبان اسپانیایی
-
-</p>
-
+    <div class="loaderLogo">🇪🇸</div>
+    <h1>VAMOS AI</h1>
+    <p>معلم هوش مصنوعی زبان اسپانیایی</p>
 </div>
 
 <div id="app">
 
 <header>
-
 <div class="topBar">
-
-<div class="logo">
-
-🇪🇸
-
-</div>
-
+<div class="logo">🇪🇸</div>
 <div>
-
-<h1>
-
-VAMOS AI
-
-</h1>
-
-<span>
-
-Spanish Teacher
-
-</span>
-
+<h1>VAMOS AI</h1>
+<span>Spanish Teacher</span>
 </div>
-
 </div>
 
 <div class="profileBox">
-
-<div class="levelBox">
-
-<div>
-
-سطح
-
+<div class="levelBox"><div>سطح</div><h2 id="level">A1</h2></div>
+<div class="xpBox"><div>XP</div><h2 id="xp">0</h2></div>
+<div class="streakBox"><div>🔥</div><h2 id="streak">0</h2></div>
 </div>
-
-<h2 id="level">
-
-A1
-
-</h2>
-
-</div>
-
-<div class="xpBox">
-
-<div>
-
-XP
-
-</div>
-
-<h2 id="xp">
-
-0
-
-</h2>
-
-</div>
-
-<div class="streakBox">
-
-<div>
-
-🔥
-
-</div>
-
-<h2 id="streak">
-
-0
-
-</h2>
-
-</div>
-
-</div>
-
 </header>
 
 <main>
 
 <section id="homePage">
-
 <div class="hero">
+<h2>به VAMOS خوش آمدی</h2>
+<p>از امروز مثل یک آموزشگاه واقعی، هر روز یک درس، تمرین، امتحان و تحلیل اشتباهات خواهی داشت.</p>
 
-<h2>
-
-به VAMOS خوش آمدی
-
-</h2>
-
-<p>
-
-از امروز مثل یک آموزشگاه واقعی،
-هر روز یک درس،
-تمرین،
-امتحان
-و تحلیل اشتباهات خواهی داشت.
-
-</p>
-
-<button id="startCourse">
-
-شروع دوره
-
-</button>
-
+<button id="startCourse">شروع دوره</button>
 </div>
 
 <div class="continueCard">
-
-<h3>
-
-ادامه یادگیری
-
-</h3>
-
-<p id="lessonStatus">
-
-هنوز دوره را شروع نکرده‌ای.
-
-</p>
-
-<button id="continueBtn">
-
-ادامه
-
-</button>
-
+<h3>ادامه یادگیری</h3>
+<p id="lessonStatus">هنوز دوره را شروع نکرده‌ای.</p>
+<button id="continueBtn">ادامه</button>
 </div>
 
 <div class="progressCard">
-
-<h3>
-
-پیشرفت
-
-</h3>
-
+<h3>پیشرفت</h3>
 <div class="progressBar">
-
-<div id="progressFill">
-
+<div id="progressFill"></div>
 </div>
-
+<span id="progressText">0%</span>
 </div>
-
-<span id="progressText">
-
-0%
-
-</span>
-
-</div>
-
 </section>
 
 <section id="lessonPage" style="display:none;">
-
-<div id="lessonContainer">
-
-</div>
-
+<div id="lessonContainer"></div>
 </section>
 
 <section id="examPage" style="display:none;">
-
-<div id="examContainer">
-
-</div>
-
+<div id="examContainer"></div>
 </section>
 
 <section id="chatPage">
-
-<div id="chatArea">
-
-</div>
+<div id="chatArea"></div>
 
 <div class="chatInput">
-
-<input
-id="userInput"
-placeholder="پاسخ خود را بنویس...">
-
-<button id="sendBtn">
-
-ارسال
-
-</button>
-
+<input id="userInput" placeholder="پاسخ خود را بنویس...">
+<button id="sendBtn">ارسال</button>
 </div>
-
 </section>
 
 </main>
 
 <nav class="bottomNav">
-
-<button id="navHome">
-
-🏠
-
-خانه
-
-</button>
-
-<button id="navLesson">
-
-📚
-
-درس‌ها
-
-</button>
-
-<button id="navChat">
-
-🤖
-
-معلم
-
-</button>
-
-<button id="navProfile">
-
-👤
-
-پروفایل
-
-</button>
-
+<button id="navHome">🏠 خانه</button>
+<button id="navLesson">📚 درس‌ها</button>
+<button id="navChat">🤖 معلم</button>
+<button id="navProfile">👤 پروفایل</button>
 </nav>
 
 </div>
 
-<script src="app.js"></script>
+<!-- ========================= -->
+<!-- VAMOS JS ENGINE (FIXED) -->
+<!-- ========================= -->
+
+<script>
+const API_URL = "https://vamos-ai-1.aqwe49614.workers.dev";
+
+let history = [];
+
+const chatArea = document.getElementById("chatArea");
+const input = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+
+/* UI */
+function addAI(text){
+    const div = document.createElement("div");
+    div.className = "message ai";
+    div.innerText = text;
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function addUser(text){
+    const div = document.createElement("div");
+    div.className = "message user";
+    div.innerText = text;
+    chatArea.appendChild(div);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+/* PROFILE */
+function getUserData(){
+    return JSON.parse(localStorage.getItem("vamos_data")) || {
+        xp:0,
+        level:"A1",
+        streak:0
+    };
+}
+
+function saveUserData(data){
+    localStorage.setItem("vamos_data", JSON.stringify(data));
+}
+
+function updateProfile(){
+    const data = getUserData();
+    document.getElementById("xp").innerText = data.xp;
+    document.getElementById("level").innerText = data.level;
+    document.getElementById("streak").innerText = data.streak;
+}
+
+/* XP */
+function addXP(n=5){
+    const d = getUserData();
+    d.xp += n;
+    if(d.xp>100) d.level="A2";
+    if(d.xp>250) d.level="B1";
+    if(d.xp>500) d.level="B2";
+    saveUserData(d);
+}
+
+function addStreak(){
+    const d = getUserData();
+    d.streak++;
+    saveUserData(d);
+}
+
+/* AI */
+async function askAI(msg){
+
+    addUser(msg);
+    history.push({role:"user",content:msg});
+
+    const load = document.createElement("div");
+    load.className="message ai";
+    load.innerText="⏳ ...";
+    chatArea.appendChild(load);
+
+    try{
+
+        const res = await fetch(API_URL,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                messages:[
+                    {role:"system",content:"تو معلم اسپانیایی هستی. فارسی توضیح بده + مثال + تمرین. سطح A1"},
+                    ...history
+                ]
+            })
+        });
+
+        const data = await res.json();
+        load.remove();
+
+        let reply =
+            data?.choices?.[0]?.message?.content ||
+            data?.response ||
+            data?.output ||
+            "خطا در پاسخ";
+
+        addAI(reply);
+
+        history.push({role:"assistant",content:reply});
+
+        addXP();
+        addStreak();
+        updateProfile();
+
+    }catch(e){
+        load.remove();
+        addAI("❌ خطا در اتصال");
+    }
+}
+
+/* NAV */
+function showPage(id){
+    ["homePage","lessonPage","chatPage","profilePage"].forEach(p=>{
+        document.getElementById(p)?.style && (document.getElementById(p).style.display="none");
+    });
+    document.getElementById(id)?.style && (document.getElementById(id).style.display="block");
+}
+
+/* INIT */
+window.addEventListener("load",()=>{
+
+    addAI("🇪🇸 خوش آمدی!");
+
+    updateProfile();
+
+    sendBtn.onclick = ()=>{
+        const t = input.value.trim();
+        if(!t) return;
+        askAI(t);
+        input.value="";
+    };
+
+    input.addEventListener("keypress",(e)=>{
+        if(e.key==="Enter") sendBtn.click();
+    });
+
+    document.getElementById("navHome").onclick=()=>showPage("homePage");
+    document.getElementById("navLesson").onclick=()=>showPage("lessonPage");
+    document.getElementById("navChat").onclick=()=>showPage("chatPage");
+    document.getElementById("navProfile").onclick=()=>showPage("profilePage");
+});
+</script>
+
 </body>
 </html>
