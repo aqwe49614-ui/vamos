@@ -1,73 +1,158 @@
 :root{
+
 --bg:#08111f;
+--bg2:#0f172a;
+
 --card:#111c33;
---card2:#16243f;
---blue:#3b82f6;
---green:#10b981;
---text:#ffffff;
---sub:#9ca3af;
+--card2:#1b2946;
+
+--blue:#2563eb;
+--green:#22c55e;
+
+--white:#ffffff;
+--gray:#cbd5e1;
+
 --radius:22px;
+
+--shadow:0 15px 35px rgba(0,0,0,.35);
+
 }
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
+
+-webkit-tap-highlight-color:transparent;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
 }
 
 body{
 
-background:var(--bg);
+background:linear-gradient(
+180deg,
+var(--bg),
+var(--bg2)
+);
 
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+color:var(--white);
 
-color:var(--text);
+font-family:
+
+-apple-system,
+
+BlinkMacSystemFont,
+
+"Segoe UI",
+
+sans-serif;
+
+min-height:100vh;
+
+overflow-x:hidden;
 
 }
 
-#app{
+#loadingScreen{
 
-max-width:480px;
+position:fixed;
 
-margin:auto;
+inset:0;
 
-min-height:100vh;
+background:#08111f;
 
 display:flex;
 
 flex-direction:column;
 
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+gap:20px;
+
+}
+
+.loaderLogo{
+
+width:110px;
+
+height:110px;
+
+border-radius:30px;
+
+background:#2563eb;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:60px;
+
+animation:pop 1s infinite;
+
+}
+
+@keyframes pop{
+
+50%{
+
+transform:scale(1.1);
+
+}
+
+}
+
+#app{
+
+display:flex;
+
+flex-direction:column;
+
+max-width:520px;
+
+margin:auto;
+
+min-height:100vh;
+
 }
 
 header{
+
+padding:25px;
+
+}
+
+.topBar{
 
 display:flex;
 
 align-items:center;
 
-gap:15px;
-
-padding:25px;
-
-background:linear-gradient(180deg,#152341,#0d182d);
-
-border-bottom:1px solid rgba(255,255,255,.08);
-
-position:sticky;
-
-top:0;
-
-z-index:100;
+gap:18px;
 
 }
 
 .logo{
 
-width:65px;
+width:70px;
 
-height:65px;
+height:70px;
 
-border-radius:18px;
+border-radius:22px;
+
+background:#2563eb;
 
 display:flex;
 
@@ -75,220 +160,98 @@ align-items:center;
 
 justify-content:center;
 
-font-size:35px;
+font-size:38px;
 
-background:#1d4ed8;
-
-}
-
-header h1{
-
-font-size:28px;
+box-shadow:var(--shadow);
 
 }
 
-header p{
-
-color:var(--sub);
-
-margin-top:4px;
-
-}
-
-#welcome{
-
-padding:25px;
-
-}
-
-#welcome h2{
+.topBar h1{
 
 font-size:30px;
 
-margin-bottom:12px;
+}
+
+.topBar span{
+
+color:var(--gray);
 
 }
 
-#welcome p{
-
-line-height:1.9;
-
-color:#d1d5db;
-
-}
-
-#startBtn{
-
-margin-top:25px;
-
-width:100%;
-
-padding:18px;
-
-font-size:18px;
-
-border:none;
-
-border-radius:18px;
-
-background:var(--green);
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:.25s;
-
-}
-
-#startBtn:hover{
-
-transform:scale(.98);
-
-}
-
-#lessonArea{
-
-padding:20px;
+.profileBox{
 
 display:flex;
-
-flex-direction:column;
-
-gap:18px;
-
-}
-
-.lessonCard{
-
-background:var(--card);
-
-padding:20px;
-
-border-radius:20px;
-
-box-shadow:0 8px 25px rgba(0,0,0,.25);
-
-}
-
-.lessonCard h3{
-
-margin-bottom:10px;
-
-}
-
-.lessonCard p{
-
-line-height:1.8;
-
-color:#d1d5db;
-
-}
-
-#chatArea{
-
-padding:20px;
-
-display:flex;
-
-flex-direction:column;
 
 gap:12px;
 
-margin-bottom:110px;
+margin-top:25px;
 
 }
 
-.message{
-
-padding:15px;
-
-border-radius:20px;
-
-max-width:90%;
-
-line-height:1.8;
-
-}
-
-.ai{
-
-background:var(--card2);
-
-align-self:flex-start;
-
-}
-
-.user{
-
-background:#2563eb;
-
-align-self:flex-end;
-
-}
-
-footer{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-right:0;
-
-max-width:480px;
-
-margin:auto;
-
-display:flex;
-
-gap:10px;
-
-padding:15px;
-
-background:#0f172a;
-
-border-top:1px solid rgba(255,255,255,.08);
-
-}
-
-footer input{
+.profileBox>div{
 
 flex:1;
 
-padding:16px;
+background:var(--card);
 
-border:none;
+padding:18px;
 
-border-radius:18px;
+border-radius:20px;
 
-background:#1e293b;
+text-align:center;
 
-color:white;
-
-font-size:16px;
+box-shadow:var(--shadow);
 
 }
 
-footer button{
+.profileBox h2{
 
-width:80px;
+margin-top:8px;
 
-border:none;
+font-size:26px;
 
-border-radius:18px;
+}
 
-background:#2563eb;
+main{
 
-color:white;
+flex:1;
 
-font-size:16px;
+padding:20px;
 
-font-weight:bold;
+}
 
-cursor:pointer;
+.hero{
+
+background:linear-gradient(
+
+135deg,
+
+#2563eb,
+
+#1d4ed8
+
+);
+
+padding:28px;
+
+border-radius:28px;
+
+box-shadow:var(--shadow);
+
+}
+
+.hero h2{
+
+font-size:32px;
+
+margin-bottom:18px;
+
+}
+
+.hero p{
+
+line-height:2;
+
+color:#eef2ff;
 
 }
