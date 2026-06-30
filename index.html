@@ -1,165 +1,152 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇪🇸 VAMOS</title>
+<title>VAMOS AI ADVANCED</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#f3f4f6;
-padding:20px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,.1);
-max-width:700px;
-margin:auto;
-}
-
-h1{
-text-align:center;
-color:#16a34a;
-margin-bottom:10px;
-}
-
-h2{
-margin-top:20px;
-color:#333;
-}
-
-li{
-margin:8px 0;
-font-size:18px;
-}
-
-button{
-width:100%;
-margin-top:20px;
-padding:15px;
-background:#16a34a;
-color:white;
-font-size:18px;
-border:none;
-border-radius:12px;
-}
-
-button:hover{
-background:#15803d;
-}
-
-#quiz{
-display:none;
-margin-top:30px;
-}
-
-input{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-border:1px solid #ccc;
-}
-
-.result{
-margin-top:20px;
-font-size:22px;
-font-weight:bold;
-text-align:center;
-}
+body{font-family:sans-serif;background:#0b1220;color:white;text-align:center;padding:15px}
+.card{background:#1e293b;padding:15px;border-radius:12px;max-width:800px;margin:auto}
+button,input{width:95%;padding:10px;margin:5px 0;border-radius:8px;border:none}
+button{background:#2563eb;color:white;cursor:pointer}
+#ai{background:#0f172a;padding:10px;border-radius:10px;min-height:140px;white-space:pre-line;text-align:right}
 </style>
-
 </head>
 
 <body>
 
+<h1>🇪🇸 VAMOS AI ADVANCED</h1>
+
 <div class="card">
 
-<h1>🇪🇸 VAMOS</h1>
+<h2 id="lesson"></h2>
+<p id="spanish"></p>
+<p id="meaning"></p>
 
-<p style="text-align:center;">
-جلسه اول - سلام و معرفی
-</p>
+<input id="input" placeholder="✍️ بنویس یا صحبت کن">
 
-<h2>لغات</h2>
+<button onclick="listen()">🔊 Listen</button>
+<button onclick="check()">✍️ Check</button>
+<button onclick="speak()">🎤 Speak</button>
+<button onclick="chat()">🤖 AI Chat</button>
+<button onclick="exam()">🧪 Exam</button>
+<button onclick="next()">➡️ Next</button>
 
-<ul>
-
-<li>Hola = سلام</li>
-
-<li>Gracias = ممنون</li>
-
-<li>Por favor = لطفاً</li>
-
-<li>Adiós = خداحافظ</li>
-
-<li>Me llamo... = اسم من ... است</li>
-
-<li>Soy iraní = من ایرانی هستم</li>
-
-</ul>
-
-<button onclick="startQuiz()">
-شروع آزمون
-</button>
-
-<div id="quiz">
-
-<h2>سوال</h2>
-
-<p>
-Hola یعنی؟
-</p>
-
-<input id="answer">
-
-<button onclick="check()">
-ثبت جواب
-</button>
-
-<div class="result" id="result"></div>
-
-</div>
+<div id="ai"></div>
 
 </div>
 
 <script>
 
-function startQuiz(){
+/* 📚 ADVANCED LESSONS (A1 → B2 BASE) */
+const lessons=[
+{es:"Hola, me llamo Alex",fa:"سلام من الکس هستم",w:"hola me llamo alex",level:"A1"},
+{es:"¿Cómo estás hoy?",fa:"امروز حالت چطوره؟",w:"como estas hoy",level:"A1"},
+{es:"Estoy aprendiendo español todos los días",fa:"هر روز اسپانیایی یاد می‌گیرم",w:"estoy aprendiendo espanol todos los dias",level:"A2"},
+{es:"Quiero hablar español con fluidez",fa:"می‌خوام روان اسپانیایی صحبت کنم",w:"quiero hablar espanol con fluidez",level:"B1"},
+{es:"Necesito mejorar mi gramática",fa:"باید گرامرم رو بهتر کنم",w:"necesito mejorar mi gramatica",level:"B1"},
+{es:"Me gustaría vivir en España algún día",fa:"دوست دارم یک روز در اسپانیا زندگی کنم",w:"me gustaria vivir en espana algun dia",level:"B2"}
+];
 
-document.getElementById("quiz").style.display="block";
+let i=0;
 
+/* LOAD */
+function load(){
+document.getElementById("lesson").innerText="Level: "+lessons[i].level;
+document.getElementById("spanish").innerText=lessons[i].es;
+document.getElementById("meaning").innerText="💡 "+lessons[i].fa;
+document.getElementById("ai").innerText="";
+}
+load();
+
+/* LISTEN */
+function listen(){
+let msg=new SpeechSynthesisUtterance(lessons[i].es);
+msg.lang="es-ES";
+speechSynthesis.speak(msg);
 }
 
+/* CHECK + AI TEACHER */
 function check(){
+let u=document.getElementById("input").value.toLowerCase().trim();
+let c=lessons[i].w;
 
-let a=document.getElementById("answer").value.trim();
-
-if(a==="سلام"){
-
-result.innerHTML="🎉 آفرین! جواب درسته.";
-
-result.style.color="green";
-
+if(u===c){
+ai("✔ عالی! جمله طبیعی و درست است.");
 }else{
+ai(`
+✘ جمله اشتباه است
 
-result.innerHTML="❌ جواب درست: سلام";
+✔ نسخه طبیعی:
+${c}
 
-result.style.color="red";
-
+📌 توضیح:
+این ساختار در اسپانیایی رایج‌تر و حرفه‌ای‌تر است.
+`);
+}
 }
 
+/* SPEAK */
+function speak(){
+let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+rec.lang="es-ES";
+rec.start();
+
+rec.onresult=(e)=>{
+let said=e.results[0][0].transcript.toLowerCase();
+if(said.includes(lessons[i].w.split(" ")[0])){
+ai("✔ تلفظ خوبه، قابل قبول است");
+}else{
+ai("✘ دوباره تلاش کن\n"+lessons[i].es);
 }
+};
+}
+
+/* 🤖 AI CHAT (ADVANCED STYLE) */
+function chat(){
+let u=document.getElementById("input").value.toLowerCase();
+
+if(!u){ai("یه جمله بنویس تا باهات صحبت کنم 🤖");return;}
+
+if(u.includes("hola")) ai("👋 ¡Hola! ¿Cómo te va?");
+else if(u.includes("quiero")) ai("🤖 ¿Por qué quieres eso? Explícame más.");
+else if(u.includes("gracias")) ai("😊 De nada, sigue practicando!");
+else ai("🤖 جمله طبیعی‌تر:\n👉 "+lessons[i].es);
+}
+
+/* 🧪 ADVANCED EXAM */
+function exam(){
+
+let score=0;
+
+let r=prompt("📖 معنی:\n"+lessons[i].es);
+if(r===lessons[i].fa)score+=25;
+
+let w=prompt("✍️ اسپانیایی:");
+if(w&&w.toLowerCase().includes(lessons[i].w.split(" ")[0]))score+=25;
+
+let l=prompt("👂 شنیداری:");
+if(l===lessons[i].fa)score+=25;
+
+let s=prompt("🗣 بگو:");
+if(s)score+=25;
+
+ai("🎯 نمره: "+score+"/100\n"+(score>=70?"✔ سطح قابل قبول":"✘ نیاز به تمرین بیشتر"));
+}
+
+/* NEXT */
+function next(){
+if(i<lessons.length-1){
+i++;
+load();
+}else{
+document.body.innerHTML="<h1>🎉 شما به سطح B2 نزدیک شدید</h1>";
+}
+}
+
+/* AI OUTPUT */
+function ai(t){document.getElementById("ai").innerText=t;}
 
 </script>
 
