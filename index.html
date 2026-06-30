@@ -1,154 +1,110 @@
 <!DOCTYPE html>
-<html lang="fa">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VAMOS AI ADVANCED</title>
+<html lang="fa" dir="rtl">
 
-<style>
-body{font-family:sans-serif;background:#0b1220;color:white;text-align:center;padding:15px}
-.card{background:#1e293b;padding:15px;border-radius:12px;max-width:800px;margin:auto}
-button,input{width:95%;padding:10px;margin:5px 0;border-radius:8px;border:none}
-button{background:#2563eb;color:white;cursor:pointer}
-#ai{background:#0f172a;padding:10px;border-radius:10px;min-height:140px;white-space:pre-line;text-align:right}
-</style>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>VAMOS AI</title>
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="style.css">
+
+<meta name="theme-color" content="#0b1220">
+
 </head>
 
 <body>
 
-<h1>🇪🇸 VAMOS AI ADVANCED</h1>
+<div id="app">
 
-<div class="card">
+<header>
 
-<h2 id="lesson"></h2>
-<p id="spanish"></p>
-<p id="meaning"></p>
+<div class="logo">
 
-<input id="input" placeholder="✍️ بنویس یا صحبت کن">
-
-<button onclick="listen()">🔊 Listen</button>
-<button onclick="check()">✍️ Check</button>
-<button onclick="speak()">🎤 Speak</button>
-<button onclick="chat()">🤖 AI Chat</button>
-<button onclick="exam()">🧪 Exam</button>
-<button onclick="next()">➡️ Next</button>
-
-<div id="ai"></div>
+🇪🇸
 
 </div>
 
-<script>
+<div>
 
-/* 📚 ADVANCED LESSONS (A1 → B2 BASE) */
-const lessons=[
-{es:"Hola, me llamo Alex",fa:"سلام من الکس هستم",w:"hola me llamo alex",level:"A1"},
-{es:"¿Cómo estás hoy?",fa:"امروز حالت چطوره؟",w:"como estas hoy",level:"A1"},
-{es:"Estoy aprendiendo español todos los días",fa:"هر روز اسپانیایی یاد می‌گیرم",w:"estoy aprendiendo espanol todos los dias",level:"A2"},
-{es:"Quiero hablar español con fluidez",fa:"می‌خوام روان اسپانیایی صحبت کنم",w:"quiero hablar espanol con fluidez",level:"B1"},
-{es:"Necesito mejorar mi gramática",fa:"باید گرامرم رو بهتر کنم",w:"necesito mejorar mi gramatica",level:"B1"},
-{es:"Me gustaría vivir en España algún día",fa:"دوست دارم یک روز در اسپانیا زندگی کنم",w:"me gustaria vivir en espana algun dia",level:"B2"}
-];
+<h1>
 
-let i=0;
+VAMOS AI
 
-/* LOAD */
-function load(){
-document.getElementById("lesson").innerText="Level: "+lessons[i].level;
-document.getElementById("spanish").innerText=lessons[i].es;
-document.getElementById("meaning").innerText="💡 "+lessons[i].fa;
-document.getElementById("ai").innerText="";
-}
-load();
+</h1>
 
-/* LISTEN */
-function listen(){
-let msg=new SpeechSynthesisUtterance(lessons[i].es);
-msg.lang="es-ES";
-speechSynthesis.speak(msg);
-}
+<p>
 
-/* CHECK + AI TEACHER */
-function check(){
-let u=document.getElementById("input").value.toLowerCase().trim();
-let c=lessons[i].w;
+معلم هوش مصنوعی زبان اسپانیایی
 
-if(u===c){
-ai("✔ عالی! جمله طبیعی و درست است.");
-}else{
-ai(`
-✘ جمله اشتباه است
+</p>
 
-✔ نسخه طبیعی:
-${c}
+</div>
 
-📌 توضیح:
-این ساختار در اسپانیایی رایج‌تر و حرفه‌ای‌تر است.
-`);
-}
-}
+</header>
 
-/* SPEAK */
-function speak(){
-let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-rec.lang="es-ES";
-rec.start();
+<section id="welcome">
 
-rec.onresult=(e)=>{
-let said=e.results[0][0].transcript.toLowerCase();
-if(said.includes(lessons[i].w.split(" ")[0])){
-ai("✔ تلفظ خوبه، قابل قبول است");
-}else{
-ai("✘ دوباره تلاش کن\n"+lessons[i].es);
-}
-};
-}
+<h2>
 
-/* 🤖 AI CHAT (ADVANCED STYLE) */
-function chat(){
-let u=document.getElementById("input").value.toLowerCase();
+خوش آمدی 👋
 
-if(!u){ai("یه جمله بنویس تا باهات صحبت کنم 🤖");return;}
+</h2>
 
-if(u.includes("hola")) ai("👋 ¡Hola! ¿Cómo te va?");
-else if(u.includes("quiero")) ai("🤖 ¿Por qué quieres eso? Explícame más.");
-else if(u.includes("gracias")) ai("😊 De nada, sigue practicando!");
-else ai("🤖 جمله طبیعی‌تر:\n👉 "+lessons[i].es);
-}
+<p>
 
-/* 🧪 ADVANCED EXAM */
-function exam(){
+از امروز آموزش زبان اسپانیایی را از صفر شروع می‌کنیم.
 
-let score=0;
+تمام آموزش‌ها مرحله به مرحله خواهند بود.
 
-let r=prompt("📖 معنی:\n"+lessons[i].es);
-if(r===lessons[i].fa)score+=25;
+در پایان هر درس امتحان گرفته می‌شود.
 
-let w=prompt("✍️ اسپانیایی:");
-if(w&&w.toLowerCase().includes(lessons[i].w.split(" ")[0]))score+=25;
+هوش مصنوعی اشتباهاتت را تحلیل می‌کند.
 
-let l=prompt("👂 شنیداری:");
-if(l===lessons[i].fa)score+=25;
+</p>
 
-let s=prompt("🗣 بگو:");
-if(s)score+=25;
+<button id="startBtn">
 
-ai("🎯 نمره: "+score+"/100\n"+(score>=70?"✔ سطح قابل قبول":"✘ نیاز به تمرین بیشتر"));
-}
+شروع درس اول
 
-/* NEXT */
-function next(){
-if(i<lessons.length-1){
-i++;
-load();
-}else{
-document.body.innerHTML="<h1>🎉 شما به سطح B2 نزدیک شدید</h1>";
-}
-}
+</button>
 
-/* AI OUTPUT */
-function ai(t){document.getElementById("ai").innerText=t;}
+</section>
 
-</script>
+<section id="lessonArea">
+
+</section>
+
+<section id="chatArea">
+
+</section>
+
+<footer>
+
+<input
+
+id="userInput"
+
+placeholder="پاسخ خود را بنویس...">
+
+<button id="send">
+
+ارسال
+
+</button>
+
+</footer>
+
+</div>
+
+<script src="app.js"></script>
 
 </body>
+
 </html>
