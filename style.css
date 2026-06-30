@@ -567,3 +567,31 @@ align-items:center;
 transform:scale(.95);
 
 }
+
+@media (max-width: 600px) {
+
+#app {
+    padding-bottom: 90px;
+}
+
+.chatInput {
+    bottom: 75px;
+}
+
+.bottomNav {
+    height: 65px;
+}
+
+.hero {
+    padding: 20px;
+}
+
+.profileBox {
+    flex-direction: column;
+}
+
+.profileBox > div {
+    margin-bottom: 10px;
+}
+
+}
