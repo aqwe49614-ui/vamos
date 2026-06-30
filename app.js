@@ -195,6 +195,8 @@ window.addEventListener("load", () => {
 
     console.log("VAMOS LOADED OK");
 
+    alert("APP STARTED");
+    
     updateProfile();
 
     addAI("🇪🇸 خوش آمدی! من معلم اسپانیایی تو هستم.");
