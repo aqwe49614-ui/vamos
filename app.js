@@ -1,5 +1,5 @@
 // =========================
-// VAMOS APP CORE (FINAL FIXED)
+// VAMOS APP CORE (FINAL STABLE FIX)
 // =========================
 
 // API
@@ -34,7 +34,7 @@ function addUser(text) {
 }
 
 // =========================
-// STORAGE (safe local version)
+// STORAGE
 // =========================
 
 function getUserData() {
@@ -88,7 +88,7 @@ function addStreak() {
 }
 
 // =========================
-// AI CONNECT
+// AI FIX (PROBLEM 1 SOLVED)
 // =========================
 
 async function askAI(message) {
@@ -97,7 +97,10 @@ async function askAI(message) {
 
     history.push({ role: "user", content: message });
 
-    addAI("⏳ ...");
+    const loading = document.createElement("div");
+    loading.className = "message ai";
+    loading.innerText = "⏳ ...";
+    chatArea.appendChild(loading);
 
     try {
 
@@ -112,14 +115,9 @@ async function askAI(message) {
                         role: "system",
                         content: `
 تو یک معلم اسپانیایی هستی.
-
-قوانین:
-- فقط آموزش بده
-- فارسی توضیح بده
-- مثال اسپانیایی بده
-- تمرین بده
-
-سطح کاربر: A1
+فقط آموزش بده.
+فارسی توضیح بده + مثال + تمرین.
+سطح: A1
 `
                     },
                     ...history
@@ -129,11 +127,20 @@ async function askAI(message) {
 
         const data = await res.json();
 
-        chatArea.lastChild.remove();
+        loading.remove();
 
-        const reply =
-            data.choices?.[0]?.message?.content ||
-            "خطا در پاسخ";
+        // ===== FIXED RESPONSE PARSING (PROBLEM 1 FIX) =====
+        let reply = "خطا در پاسخ";
+
+        if (data?.choices?.[0]?.message?.content) {
+            reply = data.choices[0].message.content;
+        } else if (data?.output) {
+            reply = data.output;
+        } else if (data?.response) {
+            reply = data.response;
+        } else if (typeof data === "string") {
+            reply = data;
+        }
 
         addAI(reply);
 
@@ -145,13 +152,14 @@ async function askAI(message) {
 
     } catch (err) {
 
-        chatArea.lastChild.remove();
-        addAI("❌ مشکل اتصال به سرور");
+        loading.remove();
+        addAI("❌ مشکل اتصال به سرور (Worker/API)");
+        console.log(err);
     }
 }
 
 // =========================
-// EVENTS (FIXED SAFE)
+// EVENTS (PROBLEM 2 FIX)
 // =========================
 
 window.addEventListener("load", () => {
@@ -164,7 +172,7 @@ window.addEventListener("load", () => {
 
 });
 
-// دکمه ارسال
+// دکمه ارسال (FIXED SAFE)
 sendBtn?.addEventListener("click", () => {
 
     const text = input?.value?.trim();
@@ -177,4 +185,41 @@ sendBtn?.addEventListener("click", () => {
 // Enter
 input?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") sendBtn.click();
+});
+
+// =========================
+// NAV FIX (PROBLEM 2 FULL FIX)
+// =========================
+
+window.addEventListener("load", () => {
+
+    const pages = {
+        home: document.getElementById("homePage"),
+        lesson: document.getElementById("lessonPage"),
+        chat: document.getElementById("chatPage"),
+        profile: document.getElementById("profilePage")
+    };
+
+    const buttons = {
+        home: document.getElementById("navHome"),
+        lesson: document.getElementById("navLesson"),
+        chat: document.getElementById("navChat"),
+        profile: document.getElementById("navProfile")
+    };
+
+    function show(page) {
+        Object.values(pages).forEach(p => {
+            if (p) p.style.display = "none";
+        });
+
+        if (pages[page]) {
+            pages[page].style.display = "block";
+        }
+    }
+
+    buttons.home?.addEventListener("click", () => show("home"));
+    buttons.lesson?.addEventListener("click", () => show("lesson"));
+    buttons.chat?.addEventListener("click", () => show("chat"));
+    buttons.profile?.addEventListener("click", () => show("profile"));
+
 });
