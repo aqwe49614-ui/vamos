@@ -9,9 +9,14 @@ window.addEventListener("load", () => {
     const app = document.getElementById("app");
 
     setTimeout(() => {
-        loader.style.display = "none";
-        app.style.display = "flex";
-    }, 1200);
+
+    const loader = document.getElementById("loadingScreen");
+    const app = document.getElementById("app");
+
+    if (loader) loader.style.display = "none";
+    if (app) app.style.display = "flex";
+
+}, 800);
 
 });
 
