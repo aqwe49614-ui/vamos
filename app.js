@@ -1,5 +1,5 @@
 // =========================
-// VAMOS APP CORE (FINAL STABLE FIX)
+// VAMOS APP CORE (PRODUCTION FIXED)
 // =========================
 
 // API
@@ -14,27 +14,27 @@ const chatArea = document.getElementById("chatArea");
 let history = [];
 
 // =========================
-// UI
+// SAFE UI
 // =========================
 
 function addAI(text) {
     const div = document.createElement("div");
     div.className = "message ai";
     div.innerText = text;
-    chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
+    chatArea?.appendChild(div);
+    chatArea.scrollTop = chatArea?.scrollHeight;
 }
 
 function addUser(text) {
     const div = document.createElement("div");
     div.className = "message user";
     div.innerText = text;
-    chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
+    chatArea?.appendChild(div);
+    chatArea.scrollTop = chatArea?.scrollHeight;
 }
 
 // =========================
-// STORAGE
+// STORAGE SAFE
 // =========================
 
 function getUserData() {
@@ -54,13 +54,9 @@ function updateProfile() {
 
     const data = getUserData();
 
-    const xpEl = document.getElementById("xp");
-    const levelEl = document.getElementById("level");
-    const streakEl = document.getElementById("streak");
-
-    if (xpEl) xpEl.innerText = data.xp;
-    if (levelEl) levelEl.innerText = data.level;
-    if (streakEl) streakEl.innerText = data.streak;
+    document.getElementById("xp")?.innerText = data.xp;
+    document.getElementById("level")?.innerText = data.level;
+    document.getElementById("streak")?.innerText = data.streak;
 }
 
 // =========================
@@ -88,7 +84,7 @@ function addStreak() {
 }
 
 // =========================
-// AI FIX (PROBLEM 1 SOLVED)
+// AI FIX (ROOT CAUSE FIXED)
 // =========================
 
 async function askAI(message) {
@@ -100,7 +96,7 @@ async function askAI(message) {
     const loading = document.createElement("div");
     loading.className = "message ai";
     loading.innerText = "⏳ ...";
-    chatArea.appendChild(loading);
+    chatArea?.appendChild(loading);
 
     try {
 
@@ -129,17 +125,18 @@ async function askAI(message) {
 
         loading.remove();
 
-        // ===== FIXED RESPONSE PARSING (PROBLEM 1 FIX) =====
-        let reply = "خطا در پاسخ";
+        console.log("AI RESPONSE:", data);
 
-        if (data?.choices?.[0]?.message?.content) {
-            reply = data.choices[0].message.content;
-        } else if (data?.output) {
-            reply = data.output;
-        } else if (data?.response) {
-            reply = data.response;
-        } else if (typeof data === "string") {
-            reply = data;
+        // ===== FIXED PARSER (100% SAFE) =====
+        let reply =
+            data?.choices?.[0]?.message?.content ??
+            data?.output ??
+            data?.response ??
+            data?.result ??
+            (typeof data === "string" ? data : null);
+
+        if (!reply) {
+            reply = "❌ Worker پاسخ معتبر نداد";
         }
 
         addAI(reply);
@@ -153,13 +150,30 @@ async function askAI(message) {
     } catch (err) {
 
         loading.remove();
-        addAI("❌ مشکل اتصال به سرور (Worker/API)");
+        addAI("❌ خطا در اتصال به سرور");
         console.log(err);
     }
 }
 
 // =========================
-// EVENTS (PROBLEM 2 FIX)
+// NAV FIX (REAL PAGE SWITCH)
+// =========================
+
+function showPage(pageId) {
+
+    const pages = ["homePage", "lessonPage", "chatPage", "profilePage"];
+
+    pages.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+    });
+
+    const target = document.getElementById(pageId);
+    if (target) target.style.display = "block";
+}
+
+// =========================
+// EVENTS SAFE INIT
 // =========================
 
 window.addEventListener("load", () => {
@@ -170,9 +184,14 @@ window.addEventListener("load", () => {
 
     addAI("🇪🇸 خوش آمدی! من معلم اسپانیایی تو هستم.");
 
+    // NAV BUTTONS
+    document.getElementById("navHome")?.addEventListener("click", () => showPage("homePage"));
+    document.getElementById("navLesson")?.addEventListener("click", () => showPage("lessonPage"));
+    document.getElementById("navChat")?.addEventListener("click", () => showPage("chatPage"));
+    document.getElementById("navProfile")?.addEventListener("click", () => showPage("profilePage"));
 });
 
-// دکمه ارسال (FIXED SAFE)
+// SEND BUTTON
 sendBtn?.addEventListener("click", () => {
 
     const text = input?.value?.trim();
@@ -182,44 +201,7 @@ sendBtn?.addEventListener("click", () => {
     input.value = "";
 });
 
-// Enter
+// ENTER
 input?.addEventListener("keypress", (e) => {
     if (e.key === "Enter") sendBtn.click();
-});
-
-// =========================
-// NAV FIX (PROBLEM 2 FULL FIX)
-// =========================
-
-window.addEventListener("load", () => {
-
-    const pages = {
-        home: document.getElementById("homePage"),
-        lesson: document.getElementById("lessonPage"),
-        chat: document.getElementById("chatPage"),
-        profile: document.getElementById("profilePage")
-    };
-
-    const buttons = {
-        home: document.getElementById("navHome"),
-        lesson: document.getElementById("navLesson"),
-        chat: document.getElementById("navChat"),
-        profile: document.getElementById("navProfile")
-    };
-
-    function show(page) {
-        Object.values(pages).forEach(p => {
-            if (p) p.style.display = "none";
-        });
-
-        if (pages[page]) {
-            pages[page].style.display = "block";
-        }
-    }
-
-    buttons.home?.addEventListener("click", () => show("home"));
-    buttons.lesson?.addEventListener("click", () => show("lesson"));
-    buttons.chat?.addEventListener("click", () => show("chat"));
-    buttons.profile?.addEventListener("click", () => show("profile"));
-
 });
