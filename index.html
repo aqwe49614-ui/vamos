@@ -2,241 +2,249 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>VAMOS AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برای بهترین پدر دنیا ❤️</title>
 
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:tahoma;
+}
 
-<meta name="theme-color" content="#08111f">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="VAMOS">
+body{
+background:linear-gradient(135deg,#4facfe,#6a11cb);
+overflow:hidden;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:35px;
+border-radius:20px;
+text-align:center;
+width:90%;
+max-width:450px;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+z-index:5;
+position:relative;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:15px 0;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:17px;
+}
+
+button{
+background:#ff4081;
+color:white;
+border:none;
+padding:12px 35px;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+background:#e91e63;
+}
+
+#message{
+display:none;
+}
+
+#text{
+font-size:24px;
+line-height:2;
+color:#444;
+min-height:180px;
+}
+
+#nameShow{
+color:#1565c0;
+margin-bottom:15px;
+}
+
+.heart{
+position:absolute;
+color:red;
+font-size:22px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-50px);
+opacity:1;
+}
+100%{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+</style>
+
 </head>
 
 <body>
 
-<div id="loadingScreen">
-    <div class="loaderLogo">🇪🇸</div>
-    <h1>VAMOS AI</h1>
-    <p>معلم هوش مصنوعی زبان اسپانیایی</p>
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<div id="form">
+<h2>سلام ❤️</h2>
+<p>لطفاً اسم و فامیلت رو وارد کن.</p>
+
+<input id="name" placeholder="اسم و فامیل">
+
+<button onclick="start()">ادامه</button>
 </div>
 
-<div id="app">
+<div id="message">
+<h2 id="nameShow"></h2>
 
-<header>
-<div class="topBar">
-<div class="logo">🇪🇸</div>
-<div>
-<h1>VAMOS AI</h1>
-<span>Spanish Teacher</span>
+<div id="text"></div>
+
+<div style="font-size:45px;margin-top:20px;">
+❤️🌹🥹
 </div>
-</div>
-
-<div class="profileBox">
-<div class="levelBox"><div>سطح</div><h2 id="level">A1</h2></div>
-<div class="xpBox"><div>XP</div><h2 id="xp">0</h2></div>
-<div class="streakBox"><div>🔥</div><h2 id="streak">0</h2></div>
-</div>
-</header>
-
-<main>
-
-<section id="homePage">
-<div class="hero">
-<h2>به VAMOS خوش آمدی</h2>
-<p>از امروز مثل یک آموزشگاه واقعی، هر روز یک درس، تمرین، امتحان و تحلیل اشتباهات خواهی داشت.</p>
-
-<button id="startCourse">شروع دوره</button>
-</div>
-
-<div class="continueCard">
-<h3>ادامه یادگیری</h3>
-<p id="lessonStatus">هنوز دوره را شروع نکرده‌ای.</p>
-<button id="continueBtn">ادامه</button>
-</div>
-
-<div class="progressCard">
-<h3>پیشرفت</h3>
-<div class="progressBar">
-<div id="progressFill"></div>
-</div>
-<span id="progressText">0%</span>
-</div>
-</section>
-
-<section id="lessonPage" style="display:none;">
-<div id="lessonContainer"></div>
-</section>
-
-<section id="examPage" style="display:none;">
-<div id="examContainer"></div>
-</section>
-
-<section id="chatPage">
-<div id="chatArea"></div>
-
-<div class="chatInput">
-<input id="userInput" placeholder="پاسخ خود را بنویس...">
-<button id="sendBtn">ارسال</button>
-</div>
-</section>
-
-</main>
-
-<nav class="bottomNav">
-<button id="navHome">🏠 خانه</button>
-<button id="navLesson">📚 درس‌ها</button>
-<button id="navChat">🤖 معلم</button>
-<button id="navProfile">👤 پروفایل</button>
-</nav>
 
 </div>
 
-<!-- ========================= -->
-<!-- VAMOS JS ENGINE (FIXED) -->
-<!-- ========================= -->
+</div>
 
 <script>
-const API_URL = "https://vamos-ai-1.aqwe49614.workers.dev";
 
-let history = [];
+const message =
+"پدرم، ببین چقدر دوستت دارم که برات یه سایت ساختم فقط برای اینکه بهت بگم خسته نباشی. ❤️\n\nهمیشه زحمت کشیدی، همیشه کنارم بودی و شاید هیچ وقت نتونم محبت‌هات رو جبران کنم.\n\nدوستت دارم بهترین بابای دنیا. 🌹";
 
-const chatArea = document.getElementById("chatArea");
-const input = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
+function start(){
 
-/* UI */
-function addAI(text){
-    const div = document.createElement("div");
-    div.className = "message ai";
-    div.innerText = text;
-    chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
+let name=document.getElementById("name").value.trim();
+
+if(name==""){
+alert("لطفاً اسم و فامیلت رو وارد کن.");
+return;
 }
 
-function addUser(text){
-    const div = document.createElement("div");
-    div.className = "message user";
-    div.innerText = text;
-    chatArea.appendChild(div);
-    chatArea.scrollTop = chatArea.scrollHeight;
+document.getElementById("form").style.display="none";
+document.getElementById("message").style.display="block";
+
+document.getElementById("nameShow").innerHTML="سلام " + name + " ❤️";
+
+document.getElementById("music").play().catch(()=>{});
+
+fireworks();
+hearts();
+typeWriter();
+
 }
 
-/* PROFILE */
-function getUserData(){
-    return JSON.parse(localStorage.getItem("vamos_data")) || {
-        xp:0,
-        level:"A1",
-        streak:0
-    };
+function typeWriter(){
+
+let i=0;
+
+let speed=45;
+
+function typing(){
+
+if(i<message.length){
+
+document.getElementById("text").innerHTML+=message.charAt(i);
+
+i++;
+
+setTimeout(typing,speed);
+
 }
 
-function saveUserData(data){
-    localStorage.setItem("vamos_data", JSON.stringify(data));
 }
 
-function updateProfile(){
-    const data = getUserData();
-    document.getElementById("xp").innerText = data.xp;
-    document.getElementById("level").innerText = data.level;
-    document.getElementById("streak").innerText = data.streak;
+typing();
+
 }
 
-/* XP */
-function addXP(n=5){
-    const d = getUserData();
-    d.xp += n;
-    if(d.xp>100) d.level="A2";
-    if(d.xp>250) d.level="B1";
-    if(d.xp>500) d.level="B2";
-    saveUserData(d);
+function hearts(){
+
+setInterval(()=>{
+
+let heart=document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+
+heart.style.animationDuration=(3+Math.random()*3)+"s";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),6000);
+
+},250);
+
 }
 
-function addStreak(){
-    const d = getUserData();
-    d.streak++;
-    saveUserData(d);
-}
+function fireworks(){
 
-/* AI */
-async function askAI(msg){
+for(let i=0;i<120;i++){
 
-    addUser(msg);
-    history.push({role:"user",content:msg});
+let spark=document.createElement("div");
 
-    const load = document.createElement("div");
-    load.className="message ai";
-    load.innerText="⏳ ...";
-    chatArea.appendChild(load);
+spark.style.position="absolute";
 
-    try{
+spark.style.width="8px";
 
-        const res = await fetch(API_URL,{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({
-                messages:[
-                    {role:"system",content:"تو معلم اسپانیایی هستی. فارسی توضیح بده + مثال + تمرین. سطح A1"},
-                    ...history
-                ]
-            })
-        });
+spark.style.height="8px";
 
-        const data = await res.json();
-        load.remove();
+spark.style.borderRadius="50%";
 
-        let reply =
-            data?.choices?.[0]?.message?.content ||
-            data?.response ||
-            data?.output ||
-            "خطا در پاسخ";
+spark.style.background=`hsl(${Math.random()*360},100%,50%)`;
 
-        addAI(reply);
+spark.style.left="50%";
 
-        history.push({role:"assistant",content:reply});
+spark.style.top="50%";
 
-        addXP();
-        addStreak();
-        updateProfile();
+spark.style.zIndex="2";
 
-    }catch(e){
-        load.remove();
-        addAI("❌ خطا در اتصال");
-    }
-}
+let x=(Math.random()-0.5)*900;
 
-/* NAV */
-function showPage(id){
-    ["homePage","lessonPage","chatPage","profilePage"].forEach(p=>{
-        document.getElementById(p)?.style && (document.getElementById(p).style.display="none");
-    });
-    document.getElementById(id)?.style && (document.getElementById(id).style.display="block");
-}
+let y=(Math.random()-0.5)*900;
 
-/* INIT */
-window.addEventListener("load",()=>{
+spark.animate([
 
-    addAI("🇪🇸 خوش آمدی!");
+{transform:"translate(0,0)",opacity:1},
 
-    updateProfile();
+{transform:`translate(${x}px,${y}px)`,opacity:0}
 
-    sendBtn.onclick = ()=>{
-        const t = input.value.trim();
-        if(!t) return;
-        askAI(t);
-        input.value="";
-    };
+],{
 
-    input.addEventListener("keypress",(e)=>{
-        if(e.key==="Enter") sendBtn.click();
-    });
+duration:1800
 
-    document.getElementById("navHome").onclick=()=>showPage("homePage");
-    document.getElementById("navLesson").onclick=()=>showPage("lessonPage");
-    document.getElementById("navChat").onclick=()=>showPage("chatPage");
-    document.getElementById("navProfile").onclick=()=>showPage("profilePage");
 });
+
+document.body.appendChild(spark);
+
+setTimeout(()=>spark.remove(),1800);
+
+}
+
+}
+
 </script>
 
 </body>
